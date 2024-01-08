@@ -1,0 +1,62 @@
+<?php
+/**
+* @author Amasty Team
+* @copyright Copyright (c) 2022 Amasty (https://www.amasty.com)
+* @package SMTP Email Settings
+*/
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    function checkConnection() {
+        var elem = $('<?php echo $this->getHtmlId() ?>');
+
+        params = {
+            server:     $('amsmtp_smtp_server').value,
+            port:       $('amsmtp_smtp_port').value,
+            auth:       $('amsmtp_smtp_auth').value,
+            login:      $('amsmtp_smtp_login').value,
+            passw:      $('amsmtp_smtp_passw').value,
+            security:   $('amsmtp_smtp_sec').value,
+            <?php echo "store: '".Mage::app()->getRequest()->getParam('store').'\','; ?>
+            test_email: $('amsmtp_smtp_test_email').value
+        };
+
+        new Ajax.Request('<?php echo $this->getAjaxUrl() ?>', {
+            parameters: params,
+            onSuccess: function(response) {
+                result = '<?php echo $this->__('Connection Failed!') ?>';
+                try {
+                    response = response.responseText;
+                    if (response == 1) {
+                        result = '<?php echo $this->__('Connection Successful!') ?>';
+                        elem.removeClassName('fail').addClassName('success')
+                    } else {
+                        elem.removeClassName('success').addClassName('fail')
+                    }
+                } catch (e) {
+                    elem.removeClassName('success').addClassName('fail')
+                }
+                $('validation_result').update(result);
+            }
+        });
+    }
+
+    function toggleNoticeVisibility () {
+        if ($('amsmtp_general_enable').value == '0') {
+            $$('.amsmtp-notice').first().show();
+        } else {
+            $$('.amsmtp-notice').first().hide();
+        }
+    }
+
+    document.observe("dom:loaded", function() {
+        toggleNoticeVisibility();
+        $('amsmtp_general_enable').on('change', toggleNoticeVisibility);
+    });
+
+    //]]>
+</script>
+<div id="messages" class="amsmtp-notice" style="display: none"><ul class="messages"><li class="warning-msg"><ul><li><span><?php echo Mage::helper('amsmtp')->__('Please note that "Enable SMTP For E-mail" is disabled.') ?></span></li></ul></li></ul></div>
+<button onclick="javascript:checkConnection(); return false;" class="scalable" type="button" id="<?php echo $this->getHtmlId() ?>">
+    <span id="validation_result"><?php echo $this->escapeHtml($this->getButtonLabel()) ?></span>
+</button>

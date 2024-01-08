@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+* @author Amasty Team
+* @copyright Copyright (c) 2022 Amasty (https://www.amasty.com)
+* @package SMTP Email Settings
+*/-->
+<config>
+    <modules>
+        <Amasty_Smtp>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Amasty_Smtp>
+    </modules>
+</config>
