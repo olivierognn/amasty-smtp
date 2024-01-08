@@ -1,0 +1,16 @@
+{
+  "name": "amasty/smtp",
+  "type": "magento-module",
+  "license":"MIT",
+  "description":"amasty module for SMTP integration",
+  "require": {
+    "php": ">=5.3",
+    "magento-hackathon/magento-composer-installer": "*"
+  },
+  "authors":[
+    {
+      "name":"Gennaro Oliviero",
+      "email":"olivierognn@gmail.com"
+    }
+  ]
+}
